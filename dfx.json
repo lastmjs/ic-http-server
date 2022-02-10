@@ -1,0 +1,9 @@
+{
+    "canisters": {
+        "http_server": {
+            "type": "rust",
+            "package": "http_server",
+            "candid": "canisters/http_server/src/lib.did"
+        }
+    }
+}
