@@ -1,10 +1,12 @@
+// I, Jordan Last, have modified much of the original Apache-licensed code
+
 mod rc_bytes;
 
 use crate::rc_bytes::RcBytes;
 
 use ic_cdk_macros::query;
 use serde_bytes::ByteBuf;
-use ic_cdk::export::candid::{CandidType, Deserialize, Func, Nat};
+use ic_cdk::export::candid::{CandidType, Deserialize, Func, Nat, export_service, candid_method};
 
 type HeaderField = (String, String);
 
@@ -43,6 +45,7 @@ struct StreamingCallbackToken {
 }
 
 #[query]
+#[candid_method(query)]
 fn http_request(req: HttpRequest) -> HttpResponse {
     // ic_cdk::println!("req.headers {:#?}", req.headers);
 
@@ -62,4 +65,11 @@ fn http_request(req: HttpRequest) -> HttpResponse {
         body: RcBytes::from(ByteBuf::from(vec![0, 1, 2])),
         streaming_strategy: None
     }
-} 
+}
+
+export_service!();
+
+#[query]
+fn __get_candid_interface_tmp_hack() -> String {
+    __export_service()
+}
